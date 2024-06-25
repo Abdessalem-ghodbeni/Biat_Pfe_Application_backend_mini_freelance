@@ -49,4 +49,14 @@ return new ResponseEntity<>(agenceServices.assignAgentsToAgence(agenceId,agentId
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+    @PutMapping("/{agenceId}/deassign-agents")
+    public ResponseEntity<?> dssignAgentsToAgence(@PathVariable Long agenceId, @RequestBody List<Long> agentIds) {
+        try {
+            return new ResponseEntity<>(agenceServices.dassignAgentsToAgence(agenceId,agentIds),HttpStatus.OK);
+        } catch (RessourceNotFound exception) {
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

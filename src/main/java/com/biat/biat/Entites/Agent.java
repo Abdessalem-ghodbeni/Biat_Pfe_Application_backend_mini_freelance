@@ -11,7 +11,7 @@ import java.util.Date;
 @Setter
 @Entity
 @Table(name="Agent")
-public class Agent extends User implements Serializable {
+public class Agent extends User  {
 
 
     @Column(name="cin")

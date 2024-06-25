@@ -42,6 +42,10 @@ private final IAgentServices agentServices;
 
 
     }
-
+    @PutMapping("/dassign/{id}")
+    public ResponseEntity<Agent> dassignAgentFromAgence(@PathVariable("id") Long agentId) {
+        Agent updatedAgent = agentServices.dassignAgentFromAgence(agentId);
+        return ResponseEntity.ok(updatedAgent);
+    }
 
 }

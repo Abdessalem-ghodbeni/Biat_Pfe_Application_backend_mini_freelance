@@ -48,4 +48,29 @@ private final IAgentRepository agentRepository;
         agence.setAgentList(agents);
         return agenceRepository.save(agence);
     }
+
+    @Override
+    @Transactional
+    public Agence dassignAgentsToAgence(Long agenceId, List<Long> agentIds) {
+        // Trouver l'agence par son ID
+        Agence agence = agenceRepository.findById(agenceId)
+                .orElseThrow(() -> new EntityNotFoundException("Agence not found with id: " + agenceId));
+
+        // Parcourir la liste des IDs d'agents à désaffecter
+        for (Long agentId : agentIds) {
+            // Trouver chaque agent par son ID
+            Agent agent = agentRepository.findById(agentId)
+                    .orElseThrow(() -> new EntityNotFoundException("Agent not found with id: " + agentId));
+
+            // Désaffecter l'agent de l'agence en mettant à jour l'agence de l'agent à null
+            agent.setAgence(null);
+
+            // Sauvegarder les modifications pour chaque agent
+            agentRepository.save(agent);
+        }
+
+        // Retourner l'agence après la désaffectation des agents
+        return agence;
+    }
+
 }

@@ -9,4 +9,5 @@ public interface IAgentServices {
     List<Agent>GettAllAgent();
     void removeAgent(long idAgent);
     Agent updateAgent(Agent agent);
+    Agent dassignAgentFromAgence(Long agentId) ;
 }

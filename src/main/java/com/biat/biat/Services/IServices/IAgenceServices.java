@@ -10,4 +10,5 @@ public interface IAgenceServices {
      Agence AddAgence (Agence agence);
      List<Agence> agenceListe();
   Agence assignAgentsToAgence(Long agenceId, List<Long> agentIds);
+    Agence dassignAgentsToAgence(Long agenceId, List<Long> agentIds);
 }
