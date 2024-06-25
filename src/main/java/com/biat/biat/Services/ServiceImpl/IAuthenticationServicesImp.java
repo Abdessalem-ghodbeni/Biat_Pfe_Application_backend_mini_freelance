@@ -2,6 +2,7 @@ package com.biat.biat.Services.ServiceImpl;
 
 import com.biat.biat.Entites.*;
 import com.biat.biat.Repository.IAgentRepository;
+import com.biat.biat.Repository.IClientRepository;
 import com.biat.biat.Repository.IUserRepository;
 import com.biat.biat.Services.IServices.IAuthenticationServices;
 import com.biat.biat.Services.IServices.IJWTServices;
@@ -22,10 +23,12 @@ public class IAuthenticationServicesImp implements IAuthenticationServices {
     private final AuthenticationManager authenticationManager;
     private final IJWTServices jwtServices;
     private final IAgentRepository agentRepository;
-
+private final IClientRepository clientRepository;
     @Override
     public Agent RegisterAgent(Agent agent) {
-        return  agentRepository.save(agent);
+
+        agent.setPassword(passwordEncoder.encode(agent.getPassword()));
+        return agentRepository.save(agent);
     }
 
     @Override
@@ -80,6 +83,12 @@ public class IAuthenticationServicesImp implements IAuthenticationServices {
     @Override
     public HashMap<String, String> resetPassword(String passwordResetToken, String newPassword) {
         return null;
+    }
+
+    @Override
+    public Client addClient(Client client) {
+        client.setPassword(passwordEncoder.encode(client.getPassword()));
+        return clientRepository.save(client);
     }
 
 

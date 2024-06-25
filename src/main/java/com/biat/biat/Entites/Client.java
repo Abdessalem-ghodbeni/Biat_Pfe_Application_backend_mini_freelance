@@ -19,4 +19,5 @@ public class Client extends User {
     private String adresse;
     @Column(name="nationality")
     private String nationality;
+    private String image;
 }
