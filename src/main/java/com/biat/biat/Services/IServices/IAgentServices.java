@@ -10,4 +10,7 @@ public interface IAgentServices {
     void removeAgent(long idAgent);
     Agent updateAgent(Agent agent);
     Agent dassignAgentFromAgence(Long agentId) ;
+
+    int getNombreComptesCrees(Long agentId);
+    List<Agent> getAgentsByAgenceId(Long agenceId);
 }

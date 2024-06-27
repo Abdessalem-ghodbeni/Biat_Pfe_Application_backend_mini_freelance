@@ -20,4 +20,7 @@ public class Client extends User {
     @Column(name="nationality")
     private String nationality;
     private String image;
+
+    @OneToOne(mappedBy = "client", cascade = CascadeType.ALL)
+    private Compte compte;
 }

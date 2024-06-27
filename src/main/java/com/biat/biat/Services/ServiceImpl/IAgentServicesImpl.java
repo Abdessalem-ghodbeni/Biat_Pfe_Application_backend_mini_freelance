@@ -46,4 +46,19 @@ public class IAgentServicesImpl implements IAgentServices {
         agent.setAgence(null);
         return agentRepository.save(agent);
     }
+
+    @Override
+    public int getNombreComptesCrees(Long agentId) {
+        Agent agent = agentRepository.findById(agentId)
+                .orElseThrow(() -> new RuntimeException("Agent not found"));
+
+        // Récupérer le nombre de comptes créés par cet agent
+        return agent.getComptes().size();
+
+    }
+
+    @Override
+    public List<Agent> getAgentsByAgenceId(Long agenceId) {
+        return agentRepository.findByAgenceId(agenceId);
+    }
 }

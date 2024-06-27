@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -22,6 +24,8 @@ public class Agent extends User  {
     private String image;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "agence_id")
-
     private Agence agence;
+    @OneToMany(mappedBy = "agent", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Compte> comptes;
 }

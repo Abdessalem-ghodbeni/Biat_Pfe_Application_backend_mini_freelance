@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin("*")
@@ -46,6 +48,25 @@ private final IAgentServices agentServices;
     public ResponseEntity<Agent> dassignAgentFromAgence(@PathVariable("id") Long agentId) {
         Agent updatedAgent = agentServices.dassignAgentFromAgence(agentId);
         return ResponseEntity.ok(updatedAgent);
+    }
+
+    @GetMapping("/productivity-comparison/{agentId1}/{agentId2}")
+    public ResponseEntity<Map<String, Object>> comparerProductivite(@PathVariable Long agentId1, @PathVariable Long agentId2) {
+        int comptesAgent1 = agentServices.getNombreComptesCrees(agentId1);
+        int comptesAgent2 = agentServices.getNombreComptesCrees(agentId2);
+
+        Map<String, Object> resultat = new HashMap<>();
+        resultat.put("agentId1", agentId1);
+        resultat.put("comptesAgent1", comptesAgent1);
+        resultat.put("agentId2", agentId2);
+        resultat.put("comptesAgent2", comptesAgent2);
+
+        return ResponseEntity.ok(resultat);
+    }
+    @GetMapping("/by-agence/{agenceId}")
+    public ResponseEntity<List<Agent>> getAgentsByAgenceId(@PathVariable Long agenceId) {
+        List<Agent> agents = agentServices.getAgentsByAgenceId(agenceId);
+        return ResponseEntity.ok(agents);
     }
 
 }
