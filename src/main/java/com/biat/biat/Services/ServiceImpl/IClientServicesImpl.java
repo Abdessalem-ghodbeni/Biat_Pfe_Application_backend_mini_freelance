@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -14,4 +16,8 @@ public class IClientServicesImpl  implements IClientServices {
     private final IClientRepository clientRepository;
 
 
+    @Override
+    public List<Client> GetAllClient() {
+        return clientRepository.findAll();
+    }
 }
