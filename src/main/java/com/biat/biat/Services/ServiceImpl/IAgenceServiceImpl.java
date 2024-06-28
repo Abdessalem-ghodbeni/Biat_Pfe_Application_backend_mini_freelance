@@ -2,6 +2,7 @@ package com.biat.biat.Services.ServiceImpl;
 
 import com.biat.biat.Entites.Agence;
 import com.biat.biat.Entites.Agent;
+import com.biat.biat.Exception.RessourceNotFound;
 import com.biat.biat.Repository.IAgenceRepository;
 import com.biat.biat.Repository.IAgentRepository;
 import com.biat.biat.Services.IServices.IAgenceServices;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -70,6 +72,39 @@ private final IAgentRepository agentRepository;
         }
 
         // Retourner l'agence après la désaffectation des agents
+        return agence;
+    }
+
+    @Override
+    public void deleteAgence(long agence) {
+        Optional<Agence> agence1=agenceRepository.findById(agence);
+        if(agence1.isPresent()){
+            agenceRepository.deleteById(agence);
+        }
+
+    }
+
+    @Override
+    public Agence modifierUneAgence(Agence agence) {
+        Optional<Agence> agenceToupdate=agenceRepository.findById(agence.getId());
+        if(agenceToupdate.isPresent()){
+            Agence agenceReadyToUpdate = agenceToupdate.get();
+            agenceReadyToUpdate.setNom(agence.getNom());
+            agenceReadyToUpdate.setVille(agence.getVille());
+            agenceReadyToUpdate.setAdresse(agence.getAdresse());
+            agenceReadyToUpdate.setFax(agence.getFax());
+            agenceReadyToUpdate.setEmail(agence.getEmail());
+            agenceReadyToUpdate.setTelephone(agence.getAdresse());
+            agenceReadyToUpdate.setCodePostal(agence.getCodePostal());
+            return agenceRepository.save(agenceReadyToUpdate);
+        } else {
+            throw new RessourceNotFound("etudiant not found avec id : " + agence.getId());
+        }
+    }
+
+    @Override
+    public Agence getAgenceByID(Long idAgence) {
+        Agence agence=agenceRepository.findById(idAgence).orElseThrow(()-> new RessourceNotFound("agence n'exite pas avec id"+idAgence));
         return agence;
     }
 

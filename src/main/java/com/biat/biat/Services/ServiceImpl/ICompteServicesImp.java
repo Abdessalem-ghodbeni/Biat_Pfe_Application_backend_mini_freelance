@@ -1,9 +1,6 @@
 package com.biat.biat.Services.ServiceImpl;
 
-import com.biat.biat.Entites.Agence;
-import com.biat.biat.Entites.Agent;
-import com.biat.biat.Entites.Client;
-import com.biat.biat.Entites.Compte;
+import com.biat.biat.Entites.*;
 import com.biat.biat.Repository.IAgenceRepository;
 import com.biat.biat.Repository.IAgentRepository;
 import com.biat.biat.Repository.IClientRepository;
@@ -34,11 +31,10 @@ public class ICompteServicesImp implements ICompteServices {
     @Override
     @Transactional
     public Compte ajouterCompte(Compte compte) {
-
         Optional<Client> clientOpt = clientRepository.findById(compte.getClient().getId());
+
         Optional<Agent> agentOpt = agentRepository.findById(compte.getAgent().getId());
         Optional<Agence> agenceOpt = agenceRepository.findById(compte.getAgence().getId());
-
         if (clientOpt.isPresent() && agentOpt.isPresent() && agenceOpt.isPresent()) {
             // Affecter le client, l'agent et l'agence au compte
             compte.setClient(clientOpt.get());
@@ -55,5 +51,32 @@ public class ICompteServicesImp implements ICompteServices {
     @Override
     public List<Compte> getAllAcout() {
         return compteRepository.findAll();
+    }
+
+    @Override
+    public int getNbAcoutByTypeCompte(TypeCompte typeCompte) {
+        List<Compte>compteList=compteRepository.findByTypeCompte(typeCompte);
+        return compteList.size();
+    }
+
+    @Override
+    public Compte addAcount(Long idAgent, Long idClient,Compte compte,Long idAgence) {
+
+        Optional<Client> clientOpt = clientRepository.findById(idClient);
+
+        Optional<Agent> agentOpt = agentRepository.findById(idAgent);
+        Optional<Agence> agenceOpt = agenceRepository.findById(idAgence);
+
+        if (clientOpt.isPresent() && agentOpt.isPresent() && agenceOpt.isPresent()) {
+            // Affecter le client, l'agent et l'agence au compte
+            compte.setClient(clientOpt.get());
+            compte.setAgent(agentOpt.get());
+            compte.setAgence(agenceOpt.get());
+
+            // Enregistrer le compte dans la base de données
+            return compteRepository.save(compte);
+        } else {
+            throw new RuntimeException("Client, Agent, or Agence not found");
+        }
     }
 }

@@ -1,4 +1,5 @@
 package com.biat.biat.Entites;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,5 +23,6 @@ public class Client extends User {
     private String image;
 
     @OneToOne(mappedBy = "client", cascade = CascadeType.ALL)
+@JsonIgnore
     private Compte compte;
 }
