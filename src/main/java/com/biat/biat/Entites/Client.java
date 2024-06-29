@@ -1,4 +1,5 @@
 package com.biat.biat.Entites;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +11,6 @@ import java.util.Date;
 
 @Table(name="Client")
 public class Client extends User {
-
     @Column(name="cin")
     private long cin;
     @Temporal(TemporalType.DATE)
@@ -20,7 +20,7 @@ public class Client extends User {
     @Column(name="nationality")
     private String nationality;
     private String image;
-
     @OneToOne(mappedBy = "client", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Compte compte;
 }

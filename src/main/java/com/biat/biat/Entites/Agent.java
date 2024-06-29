@@ -15,7 +15,6 @@ import java.util.List;
 @Table(name="Agent")
 public class Agent extends User  {
 
-
     @Column(name="cin")
     private long cin;
     @Temporal(TemporalType.DATE)

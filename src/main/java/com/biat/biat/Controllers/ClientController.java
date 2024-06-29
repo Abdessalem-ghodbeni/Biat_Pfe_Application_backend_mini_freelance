@@ -1,15 +1,14 @@
 package com.biat.biat.Controllers;
 
+import com.biat.biat.Entites.Agence;
+import com.biat.biat.Entites.Agent;
 import com.biat.biat.Entites.Client;
 import com.biat.biat.Exception.RessourceNotFound;
 import com.biat.biat.Services.IServices.IClientServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClientController {
     private final IClientServices clientServices;
+
     @GetMapping(path = "/all")
     public ResponseEntity<?> getAll() {
 
@@ -29,7 +29,32 @@ public class ClientController {
             }
             return ResponseEntity.ok(comptes);
         } catch (RessourceNotFound exception) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("quelque chose mal passé"+exception.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("quelque chose mal passé" + exception.getMessage());
         }
+    }
+
+    @DeleteMapping(path = "/supprimer/{id}")
+    public ResponseEntity<String> SupprimerAgent(@PathVariable("id") long idClient) {
+        try {
+            clientServices.removeClient(idClient);
+            return ResponseEntity.ok("Client deleted Successfuly");
+        } catch (RessourceNotFound e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+    @GetMapping(path = "/{id}")
+    public Client getClientById(@PathVariable("id") long id) {
+        return clientServices.getClientById(id);
+    }
+    @GetMapping("/{clientId}/agent")
+    public ResponseEntity<Agent> getAgentByClientId(@PathVariable Long clientId) {
+        Agent agent = clientServices.findAgentByClientId(clientId);
+        return ResponseEntity.ok().body(agent);
+    }
+
+    @GetMapping("/{clientId}/agence")
+    public ResponseEntity<Agence> getAgenceByClientId(@PathVariable Long clientId) {
+        Agence agence = clientServices.findAgenceByClientId(clientId);
+        return ResponseEntity.ok().body(agence);
     }
 }

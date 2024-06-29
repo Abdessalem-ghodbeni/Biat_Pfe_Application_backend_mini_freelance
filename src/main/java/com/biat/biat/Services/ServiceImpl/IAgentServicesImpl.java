@@ -18,6 +18,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class IAgentServicesImpl implements IAgentServices {
     private final IAgentRepository agentRepository;
+
+    @Override
+    public Agent getAgentByIdWithAgence(long id) {
+        return agentRepository.findById(id).orElseThrow(null);
+    }
+
     @Override
     public List<Agent> GettAllAgent() {
        return agentRepository.findAll();
@@ -31,7 +37,6 @@ public class IAgentServicesImpl implements IAgentServices {
         } else {
             throw new RessourceNotFound("agent non trouve avec id " + idAgent);
         }
-
     }
 
     @Override

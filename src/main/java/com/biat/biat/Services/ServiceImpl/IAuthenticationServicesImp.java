@@ -131,8 +131,8 @@ private final IClientRepository clientRepository;
         dto.setNumeroTelephone(client.getNumeroTelephone());
         dto.setDateNaissance(client.getDateNaissance());
         dto.setAdresse(client.getAdresse());
+        dto.setImage(client.getImage());
         dto.setNationality(client.getNationality());
-
         return dto;
     }
 }

@@ -33,19 +33,14 @@ public class AuthenticationController {
 
   @PostMapping("/registerAgent")
   public ResponseEntity<Agent> registerAgent(@RequestParam("nom") String nom,
-                                                @RequestParam("prenom") String prenom,
-                                                @RequestParam("email") String email,
-                                                @RequestParam("password") String password,
+                                             @RequestParam("prenom") String prenom,
+                                             @RequestParam("email") String email,
+                                             @RequestParam("password") String password,
                                              @RequestParam("numeroTelephone") String numeroTelephone,
-
-                                                @RequestParam("cin") Long cin,
+                                             @RequestParam("cin") Long cin,
                                              @RequestParam("dateNaissance") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateNaissance,
-
-
-                                                @RequestParam("image") MultipartFile file) throws IOException {
+                                             @RequestParam("image") MultipartFile file) throws IOException {
     Agent agent = new Agent();
-
-
     agent.setNom(nom);
     agent.setPrenom(prenom);
     agent.setEmail(email);
@@ -57,14 +52,11 @@ public class AuthenticationController {
     String originalFilename = file.getOriginalFilename();
     String uniqueFilename = UUID.randomUUID().toString() + "_" + originalFilename;
     Path fileNameAndPath = Paths.get(uploadDirectory, uniqueFilename);
-
     if (!Files.exists(fileNameAndPath.getParent())) {
        Files.createDirectories(fileNameAndPath.getParent());
   }
-
   Files.write(fileNameAndPath, file.getBytes());
     agent.setImage(uniqueFilename);
-
     Agent savedAgent = authenticationServices.RegisterAgent(agent);
     return ResponseEntity.ok(savedAgent);
   }
@@ -112,15 +104,12 @@ public ResponseEntity<Client> registerClient(@RequestParam("nom") String nom,
                                            @RequestParam("email") String email,
                                            @RequestParam("password") String password,
                                            @RequestParam("numeroTelephone") String numeroTelephone,
-
-                                           @RequestParam("cin") Long cin,
+                                             @RequestParam("cin") Long cin,
                                            @RequestParam("dateNaissance") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateNaissance,
                                             @RequestParam("adresse") String adresse,
                                             @RequestParam("nationality") String nationality,
                                            @RequestParam("image") MultipartFile file) throws IOException {
   Client client = new Client();
-
-
   client.setNom(nom);
   client.setPrenom(prenom);
   client.setEmail(email);
@@ -134,14 +123,11 @@ public ResponseEntity<Client> registerClient(@RequestParam("nom") String nom,
   String originalFilename = file.getOriginalFilename();
   String uniqueFilename = UUID.randomUUID().toString() + "_" + originalFilename;
   Path fileNameAndPath = Paths.get(uploadDirectory, uniqueFilename);
-
   if (!Files.exists(fileNameAndPath.getParent())) {
     Files.createDirectories(fileNameAndPath.getParent());
   }
-
   Files.write(fileNameAndPath, file.getBytes());
   client.setImage(uniqueFilename);
-
   Client savedClient = authenticationServices.addClient(client);
   return ResponseEntity.ok(savedClient);
 }

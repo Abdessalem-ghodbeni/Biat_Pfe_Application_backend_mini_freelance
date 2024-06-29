@@ -44,7 +44,7 @@ public class AgenceControllers {
     @PutMapping("/{agenceId}/assign-agents")
     public ResponseEntity<?> assignAgentsToAgence(@PathVariable Long agenceId, @RequestBody List<Long> agentIds) {
         try {
-return new ResponseEntity<>(agenceServices.assignAgentsToAgence(agenceId,agentIds),HttpStatus.OK);
+            return new ResponseEntity<>(agenceServices.assignAgentsToAgence(agenceId,agentIds),HttpStatus.OK);
         } catch (RessourceNotFound exception) {
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -58,5 +58,9 @@ return new ResponseEntity<>(agenceServices.assignAgentsToAgence(agenceId,agentId
         } catch (RessourceNotFound exception) {
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @GetMapping("{id}")
+    public Agence getAgenceByAgentId(@PathVariable Long id) {
+        return agenceServices.getAgenceByAgentId(id);
     }
 }

@@ -3,6 +3,7 @@ package com.biat.biat.Controllers;
 import com.biat.biat.Entites.Agence;
 import com.biat.biat.Entites.Agent;
 import com.biat.biat.Entites.Compte;
+import com.biat.biat.Entites.TypeCompte;
 import com.biat.biat.Exception.RessourceNotFound;
 import com.biat.biat.Services.IServices.ICompteServices;
 import lombok.RequiredArgsConstructor;
@@ -35,14 +36,11 @@ private final ICompteServices compteServices;
     @PostMapping(path = "/add")
     public ResponseEntity<?> AjouterCompte(@RequestBody Compte compte) {
         try {
-
             return new ResponseEntity<>(compteServices.ajouterCompte(compte), HttpStatus.CREATED);
         } catch (RessourceNotFound exception) {
             return new ResponseEntity<>(exception.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
     @GetMapping(path = "/all")
     public ResponseEntity<?> getAll() {
 
@@ -57,9 +55,16 @@ private final ICompteServices compteServices;
         }
     }
 
-
-
-
-
+    @GetMapping("/type/{clientId}")
+    public ResponseEntity<TypeCompte> getTypeCompteByClientId(@PathVariable Long clientId) {
+        try {
+            TypeCompte typeCompte = compteServices.getTypeCompteByClientId(clientId);
+            return ResponseEntity.ok(typeCompte);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null);
+        }
+    }
 
 }

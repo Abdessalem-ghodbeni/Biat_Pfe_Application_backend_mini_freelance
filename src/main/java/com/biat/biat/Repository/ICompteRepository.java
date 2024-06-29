@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ICompteRepository extends JpaRepository<Compte,Long> {
     List<Compte> findByAgence_Id(Long idAgence);
+    Compte findByClient_Id(Long clientId);
+
 }

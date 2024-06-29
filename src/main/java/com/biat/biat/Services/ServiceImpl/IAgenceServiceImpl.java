@@ -21,6 +21,12 @@ import java.util.List;
 public class IAgenceServiceImpl implements IAgenceServices {
 private  final IAgenceRepository agenceRepository;
 private final IAgentRepository agentRepository;
+
+    @Override
+    public Agence getAgenceByAgentId(Long agentId) {
+        return agenceRepository.findByAgentList_Id(agentId);
+    }
+
     @Override
 
     public Agence AddAgence(Agence agence) {

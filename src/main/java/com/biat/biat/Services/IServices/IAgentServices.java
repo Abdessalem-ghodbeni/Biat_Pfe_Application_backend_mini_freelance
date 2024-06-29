@@ -13,4 +13,5 @@ public interface IAgentServices {
 
     int getNombreComptesCrees(Long agentId);
     List<Agent> getAgentsByAgenceId(Long agenceId);
+    Agent getAgentByIdWithAgence(long id);
 }

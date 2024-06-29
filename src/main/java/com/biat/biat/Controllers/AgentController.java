@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,8 +42,6 @@ private final IAgentServices agentServices;
         } catch (RessourceNotFound e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
-
-
     }
     @PutMapping("/dassign/{id}")
     public ResponseEntity<Agent> dassignAgentFromAgence(@PathVariable("id") Long agentId) {
@@ -67,6 +66,10 @@ private final IAgentServices agentServices;
     public ResponseEntity<List<Agent>> getAgentsByAgenceId(@PathVariable Long agenceId) {
         List<Agent> agents = agentServices.getAgentsByAgenceId(agenceId);
         return ResponseEntity.ok(agents);
+    }
+    @GetMapping("/{id}")
+    public Agent getAgentByIdWithDetails(@PathVariable Long id) {
+        return agentServices.getAgentByIdWithAgence(id);
     }
 
 }
