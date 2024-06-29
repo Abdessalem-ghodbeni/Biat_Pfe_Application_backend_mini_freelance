@@ -40,6 +40,7 @@ public class ICompteServicesImp implements ICompteServices {
         System.out.println("Client associé au compte : " + compte.getClient());
 
         Optional<Client> clientOpt = clientRepository.findById(compte.getClient().getId());
+
         Optional<Agent> agentOpt = agentRepository.findById(compte.getAgent().getId());
         Optional<Agence> agenceOpt = agenceRepository.findById(compte.getAgence().getId());
         if (clientOpt.isPresent() && agentOpt.isPresent() && agenceOpt.isPresent()) {
@@ -58,11 +59,34 @@ public class ICompteServicesImp implements ICompteServices {
     public List<Compte> getAllAcout() {
         return compteRepository.findAll();
     }
+ 
     public TypeCompte getTypeCompteByClientId(Long clientId) {
         Compte compte = compteRepository.findByClient_Id(clientId);
         if (compte == null) {
             throw new IllegalArgumentException("Client does not have an account.");
         }
         return compte.getTypeCompte();
+    }
+
+    @Override
+    public int getNbAcoutByTypeCompte(TypeCompte typeCompte) {
+        List<Compte>compteList=compteRepository.findByTypeCompte(typeCompte);
+        return compteList.size();
+    }
+
+    @Override
+    public Compte addAcount(Long idAgent, Long idClient,Compte compte,Long idAgence) {
+        Optional<Client> clientOpt = clientRepository.findById(idClient);
+        Optional<Agent> agentOpt = agentRepository.findById(idAgent);
+        Optional<Agence> agenceOpt = agenceRepository.findById(idAgence);
+
+        if (clientOpt.isPresent() && agentOpt.isPresent() && agenceOpt.isPresent()) {
+            compte.setClient(clientOpt.get());
+            compte.setAgent(agentOpt.get());
+            compte.setAgence(agenceOpt.get());
+            return compteRepository.save(compte);
+        } else {
+            throw new RuntimeException("Client, Agent, or Agence not found");
+        }
     }
 }

@@ -10,4 +10,6 @@ public interface ICompteServices {
     Compte ajouterCompte(Compte compte);
     List<Compte> getAllAcout();
     TypeCompte getTypeCompteByClientId(Long clientId);
+    int getNbAcoutByTypeCompte(TypeCompte typeCompte);
+    Compte addAcount(Long idAgent,Long IdClient ,Compte compte,Long idAgence);
 }

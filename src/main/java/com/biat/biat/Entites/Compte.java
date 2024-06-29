@@ -33,6 +33,7 @@ public class Compte implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "client_id")
+
     private Client client;
 
     @ManyToOne
