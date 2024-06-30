@@ -101,16 +101,17 @@ private final IAgentRepository agentRepository;
             agenceReadyToUpdate.setEmail(agence.getEmail());
             agenceReadyToUpdate.setTelephone(agence.getAdresse());
             agenceReadyToUpdate.setCodePostal(agence.getCodePostal());
+
             return agenceRepository.save(agenceReadyToUpdate);
         } else {
             throw new RessourceNotFound("etudiant not found avec id : " + agence.getId());
         }
     }
 
-//    @Override
-//    public Agence getAgenceByID(Long idAgence) {
-//        Agence agence=agenceRepository.findById(idAgence).orElseThrow(()-> new RessourceNotFound("agence n'exite pas avec id"+idAgence));
-//        return agence;
-//    }
+    @Override
+    public Agence getAgenceByiD(Long idAgence) {
+        Agence agence=agenceRepository.findById(idAgence).orElseThrow(()-> new RessourceNotFound("agence n'exite pas avec id"+idAgence));
+        return agence;
+    }
 
 }

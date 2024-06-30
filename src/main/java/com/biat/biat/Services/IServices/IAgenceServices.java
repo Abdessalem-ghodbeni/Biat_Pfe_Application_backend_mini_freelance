@@ -14,5 +14,6 @@ public interface IAgenceServices {
     void deleteAgence(long agence);
     Agence modifierUneAgence(Agence agence);
     Agence getAgenceByID(Long idAgence);
+    Agence getAgenceByiD(Long idAgence);
 
 }
