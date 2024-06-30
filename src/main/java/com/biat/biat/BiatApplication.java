@@ -35,7 +35,6 @@ public class BiatApplication implements CommandLineRunner {
             admin.setNom("admin");
             admin.setPrenom("admin");
             admin.setRole(Role.ADMIN);
-//            admin.setImage("ffffffff");
             admin.setPassword(new BCryptPasswordEncoder().encode("admin"));
             adminRepository.save(admin);
         }

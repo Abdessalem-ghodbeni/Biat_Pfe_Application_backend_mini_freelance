@@ -38,10 +38,17 @@ public class Agence implements Serializable {
 
     @Column(name = "email")
     private String email;
+
     @OneToMany(mappedBy = "agence", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Compte> comptes;
+
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "agence")
     @JsonIgnore
     private List<Agent> agentList;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "agence")
+    private List<ChequeBookRequest> chequeBookRequests;
+
 }

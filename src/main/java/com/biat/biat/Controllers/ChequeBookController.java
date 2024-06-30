@@ -1,5 +1,4 @@
 package com.biat.biat.Controllers;
-
 import com.biat.biat.Entites.ChequeBookRequest;
 import com.biat.biat.Services.ServiceImpl.ChequeBookServiceImplements;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +14,18 @@ import java.util.List;
 public class ChequeBookController {
     @Autowired
     private ChequeBookServiceImplements chequeBookRequestService;
-    @PostMapping
-    public ChequeBookRequest createChequeBookRequest(@RequestBody ChequeBookRequest request) {
-        return chequeBookRequestService.createChequeBookRequest(request);
+    @PostMapping()
+    public ResponseEntity<Object> createChequeBookRequest(@RequestBody ChequeBookRequest request) {
+        try {
+            ChequeBookRequest createdRequest = chequeBookRequestService.createChequeBookRequest(request);
+            return ResponseEntity.ok().body("{\"response\": \"" + createdRequest.getId() + "\"}");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error creating cheque book request: " + e.getMessage());
+        }
     }
+
+
     @PutMapping("/approve/{requestId}")
     public ResponseEntity<?> approveChequeBookRequest(@PathVariable Long requestId) {
         try {

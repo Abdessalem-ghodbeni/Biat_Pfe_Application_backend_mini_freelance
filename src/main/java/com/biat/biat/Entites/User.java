@@ -33,12 +33,17 @@ public class User implements Serializable, UserDetails {
 
     @Enumerated(EnumType.STRING)
     Role role;
+
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return List.of(new SimpleGrantedAuthority(role.name()));
+//    }
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return null;
     }
-
-
 
     @Override
     public String getUsername() {

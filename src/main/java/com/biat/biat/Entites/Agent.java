@@ -17,14 +17,22 @@ public class Agent extends User  {
 
     @Column(name="cin")
     private long cin;
+
     @Temporal(TemporalType.DATE)
     private Date dateNaissance;
 
     private String image;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "agence_id")
     private Agence agence;
+
     @OneToMany(mappedBy = "agent", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Compte> comptes;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "agent")
+    private List<ChequeBookRequest> chequeBookRequests;
+
 }

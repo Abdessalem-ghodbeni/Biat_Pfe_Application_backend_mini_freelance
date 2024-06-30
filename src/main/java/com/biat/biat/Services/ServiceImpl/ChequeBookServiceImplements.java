@@ -21,34 +21,7 @@ public class ChequeBookServiceImplements implements IChequeBookRequests {
     private ChequeBookRequestRepository chequeBookRequestRepository;
     @Autowired
     private ICompteRepository compteRepository ;
-//    @Override
-//    public ChequeBookRequest createChequeBookRequest(ChequeBookRequest request) {
-//        try {
-//            if (chequeBookRequestRepository.existsActiveRequestByClientId(request.getClient().getId())) {
-//                throw new IllegalArgumentException("Client already has an active cheque book request.");
-//            }
-//            Compte compte = compteRepository.findByClient_Id(request.getClient().getId());
-//            if (compte == null) {
-//                throw new IllegalArgumentException("Client does not have an account.");
-//            }
-//            if (compte.getTypeCompte() != TypeCompte.CHEQUIER) {
-//                throw new IllegalArgumentException("Cheque book request can only be made for 'CHEQUIER' accounts.");
-//            }
-//            ChequeBookRequest lastRefusedRequest = chequeBookRequestRepository.findTopByClientIdAndStatusOrderByRefusalDateDesc(request.getClient().getId(), "REFUSED");
-//            if (lastRefusedRequest != null) {
-//                LocalDateTime refusalDate = LocalDateTime.ofInstant(lastRefusedRequest.getRefusalDate().toInstant(), ZoneId.systemDefault());
-//                LocalDateTime threeMonthsLater = refusalDate.plusMonths(3);
-//                if (LocalDateTime.now().isBefore(threeMonthsLater)) {
-//                    throw new IllegalArgumentException("Client can only submit a new cheque book request three months after the last refusal.");
-//                }
-//            }
-//            request.setRequestDate(new Date());
-//            request.setStatus("PENDING");
-//            return chequeBookRequestRepository.save(request);
-//        } catch (Exception e) {
-//            throw new IllegalArgumentException("An unexpected error occurred while creating the cheque book request.", e);
-//        }
-//    }
+
 @Override
 public ChequeBookRequest createChequeBookRequest(ChequeBookRequest request) {
     try {
