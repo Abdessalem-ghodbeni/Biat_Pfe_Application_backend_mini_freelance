@@ -91,5 +91,13 @@ public class AgenceControllers {
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping(path = "/get/{id}")
+    public ResponseEntity<?> getAgenceid(@PathVariable("id") Long id) {
+       try {
+            Agence  agences = agenceServices.getAgenceByiD(id);
 
+            return ResponseEntity.ok(agences);
+        } catch (RessourceNotFound exception) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("quelque chose mal passé"+exception.getMessage());
+        }}
 }

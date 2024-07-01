@@ -24,6 +24,9 @@ public class ChequeBookServiceImplements implements IChequeBookRequests {
     @Autowired
     private ICompteRepository compteRepository ;
 
+    @Autowired
+    private SendEmailServiceImp sendEmailService;
+
 @Override
 public ChequeBookRequest createChequeBookRequest(ChequeBookRequest request) {
     try {
@@ -64,6 +67,12 @@ public ChequeBookRequest createChequeBookRequest(ChequeBookRequest request) {
         }
         request.setStatus("APPROVED");
         request.setAcceptedDate(new Date());
+        String email=request.getClient().getEmail();
+        String subject = "Your Cheque Book Request has been Approved";
+        String body = "Dear " + request.getClient().getNom() + " a ," +new Date()+"\n\n"+
+                "Your cheque book request has been approved.\n\n" +
+                "Regards,\nYour Biat Bank";
+        sendEmailService.sendEmail(email, body, subject);
         return chequeBookRequestRepository.save(request);
     }
 
@@ -77,6 +86,12 @@ public ChequeBookRequest createChequeBookRequest(ChequeBookRequest request) {
         }
         request.setStatus("REFUSED");
         request.setRefusalDate(new Date());
+        String email=request.getClient().getEmail();
+        String subject = "Your Cheque Book Request has  been REFUSED";
+        String body = "Dear " + request.getClient().getNom() + " a ," +new Date()+"\n\n"+
+                "Your cheque book request has been REFUSED.\n\n" +
+                "Regards,\nYour Biat Bank";
+        sendEmailService.sendEmail(email, body, subject);
         return chequeBookRequestRepository.save(request);
     }
     public List<ChequeBookRequest> getAllRequestsByClientId(Long clientId) {
