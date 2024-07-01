@@ -1,6 +1,7 @@
 package com.biat.biat.Services.ServiceImpl;
 
 import com.biat.biat.Entites.*;
+import com.biat.biat.Exception.RessourceNotFound;
 import com.biat.biat.Repository.IAgenceRepository;
 import com.biat.biat.Repository.IAgentRepository;
 import com.biat.biat.Repository.IClientRepository;
@@ -59,7 +60,7 @@ public class ICompteServicesImp implements ICompteServices {
     public List<Compte> getAllAcout() {
         return compteRepository.findAll();
     }
- 
+
     public TypeCompte getTypeCompteByClientId(Long clientId) {
         Compte compte = compteRepository.findByClient_Id(clientId);
         if (compte == null) {
@@ -70,12 +71,12 @@ public class ICompteServicesImp implements ICompteServices {
 
     @Override
     public int getNbAcoutByTypeCompte(TypeCompte typeCompte) {
-        List<Compte>compteList=compteRepository.findByTypeCompte(typeCompte);
+        List<Compte> compteList = compteRepository.findByTypeCompte(typeCompte);
         return compteList.size();
     }
 
     @Override
-    public Compte addAcount(Long idAgent, Long idClient,Compte compte,Long idAgence) {
+    public Compte addAcount(Long idAgent, Long idClient, Compte compte, Long idAgence) {
         Optional<Client> clientOpt = clientRepository.findById(idClient);
         Optional<Agent> agentOpt = agentRepository.findById(idAgent);
         Optional<Agence> agenceOpt = agenceRepository.findById(idAgence);
@@ -88,5 +89,40 @@ public class ICompteServicesImp implements ICompteServices {
         } else {
             throw new RuntimeException("Client, Agent, or Agence not found");
         }
+    }
+
+    @Override
+    public Compte  updateAccount(Compte compte) {
+        Optional<Compte> compteOpt = compteRepository.findById(compte.getId());
+        if (compteOpt.isPresent()) {
+            Compte existingCompte = compteOpt.get();
+            existingCompte.setNumeroCompte(compte.getNumeroCompte());
+            existingCompte.setTypeCompte(compte.getTypeCompte());
+            existingCompte.setSolde(compte.getSolde());
+            existingCompte.setDateCreation(compte.getDateCreation());
+            existingCompte.setClient(compte.getClient());
+            existingCompte.setAgent(compte.getAgent());
+            existingCompte.setAgence(compte.getAgence());
+            return  compteRepository.save(existingCompte);
+        } else {
+            throw new RessourceNotFound("etudiant not found avec id : " + compte.getId());
+        }
+    }
+
+    public void deleteAccount(Long id) {
+        if (compteRepository.existsById(id)) {
+            compteRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Compte non trouvé avec l'ID : " + id);
+        }
+    }
+
+    public Compte getCompteById(Long id) {
+        return compteRepository.findById(id)
+                .orElseThrow(() -> new RessourceNotFound("Compte not found avec id : " + id));
+    }
+
+    public Double getSoldeByClientId(Long clientId) {
+        return compteRepository.findSoldeByClientId(clientId);
     }
 }

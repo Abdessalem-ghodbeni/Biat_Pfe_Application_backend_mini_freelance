@@ -3,6 +3,7 @@ package com.biat.biat.Controllers;
 import com.biat.biat.Entites.Agence;
 import com.biat.biat.Entites.Agent;
 import com.biat.biat.Entites.Client;
+import com.biat.biat.Entites.Compte;
 import com.biat.biat.Exception.RessourceNotFound;
 import com.biat.biat.Services.IServices.IClientServices;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -56,5 +58,12 @@ public class ClientController {
     public ResponseEntity<Agence> getAgenceByClientId(@PathVariable Long clientId) {
         Agence agence = clientServices.findAgenceByClientId(clientId);
         return ResponseEntity.ok().body(agence);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Client> updateClient(@PathVariable Long id, @RequestBody Client client) {
+        client.setId(id);
+        Client updatedClient = clientServices.updateClient(client);
+        return ResponseEntity.ok(updatedClient);
     }
 }

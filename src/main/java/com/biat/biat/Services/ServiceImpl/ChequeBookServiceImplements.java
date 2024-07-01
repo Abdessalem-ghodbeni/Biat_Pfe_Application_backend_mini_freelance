@@ -1,5 +1,6 @@
 package com.biat.biat.Services.ServiceImpl;
 import com.biat.biat.Entites.*;
+import com.biat.biat.Exception.RessourceNotFound;
 import com.biat.biat.Repository.ChequeBookRequestRepository;
 import com.biat.biat.Repository.ICompteRepository;
 import com.biat.biat.Services.IServices.IChequeBookRequests;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -53,7 +55,6 @@ public ChequeBookRequest createChequeBookRequest(ChequeBookRequest request) {
         throw new IllegalArgumentException("An unexpected error occurred while creating the cheque book request.", e);
     }
 }
-
     @Transactional
     public ChequeBookRequest approveChequeBookRequest(Long requestId) {
         ChequeBookRequest request = chequeBookRequestRepository.findById(requestId)
@@ -85,4 +86,17 @@ public ChequeBookRequest createChequeBookRequest(ChequeBookRequest request) {
         return chequeBookRequestRepository.findAllByAgent_Id(agentId);
     }
 
+    public void deleteChequeBookRequest(Long id) {
+        Optional<ChequeBookRequest> chequeBookRequestOptional = chequeBookRequestRepository.findById(id);
+        if (chequeBookRequestOptional.isPresent()) {
+            chequeBookRequestRepository.deleteById(id);
+        } else {
+            throw new RessourceNotFound("ChequeBookRequest not found with id: " + id);
+        }
+    }
+    @Override
+    public ChequeBookRequest  getRequestById(Long id) {
+        ChequeBookRequest request=chequeBookRequestRepository.findById(id).orElseThrow(()-> new RessourceNotFound("demande n'exite pas avec id"+id));
+        return request;
+    }
 }

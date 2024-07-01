@@ -28,9 +28,8 @@ public class User implements Serializable, UserDetails {
     String numeroTelephone;
     @Column(unique=true)
     String email;
-
+    String passwordResetToken;
     String password;
-
     @Enumerated(EnumType.STRING)
     Role role;
 

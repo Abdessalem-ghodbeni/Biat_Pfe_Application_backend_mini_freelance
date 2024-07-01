@@ -89,7 +89,7 @@ public class AuthenticationController {
   }
 
   @PostMapping("/forgetpassword")
-  public HashMap<String,String> forgetPassword(@RequestParam String email){
+  public HashMap<String,String> forgetPassword(@RequestBody String email){
         return authenticationServices.forgetPassword(email);
   }
 
@@ -98,37 +98,36 @@ public class AuthenticationController {
         return authenticationServices.resetPassword(passwordResetToken, newPassword);
     }
 
-@PostMapping("/registerClient")
-public ResponseEntity<Client> registerClient(@RequestParam("nom") String nom,
-                                           @RequestParam("prenom") String prenom,
-                                           @RequestParam("email") String email,
-                                           @RequestParam("password") String password,
-                                           @RequestParam("numeroTelephone") String numeroTelephone,
-                                             @RequestParam("cin") Long cin,
-                                           @RequestParam("dateNaissance") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateNaissance,
-                                            @RequestParam("adresse") String adresse,
-                                            @RequestParam("nationality") String nationality,
-                                           @RequestParam("image") MultipartFile file) throws IOException {
-  Client client = new Client();
-  client.setNom(nom);
-  client.setPrenom(prenom);
-  client.setEmail(email);
-  client.setPassword(password);
-  client.setCin(cin);
-  client.setNumeroTelephone(numeroTelephone);
-  client.setDateNaissance(dateNaissance);
-  client.setRole(Role.CLIENT);
-  client.setNationality(nationality);
-  client.setAdresse(adresse);
-  String originalFilename = file.getOriginalFilename();
-  String uniqueFilename = UUID.randomUUID().toString() + "_" + originalFilename;
-  Path fileNameAndPath = Paths.get(uploadDirectory, uniqueFilename);
-  if (!Files.exists(fileNameAndPath.getParent())) {
-    Files.createDirectories(fileNameAndPath.getParent());
-  }
-  Files.write(fileNameAndPath, file.getBytes());
-  client.setImage(uniqueFilename);
-  Client savedClient = authenticationServices.addClient(client);
-  return ResponseEntity.ok(savedClient);
-}
+    @PostMapping("/registerClient")
+    public ResponseEntity<Client> registerClient(@RequestParam("nom") String nom,
+                                               @RequestParam("prenom") String prenom,
+                                               @RequestParam("email") String email,
+                                               @RequestParam("password") String password,
+                                               @RequestParam("numeroTelephone") String numeroTelephone, @RequestParam("cin") Long cin,
+                                               @RequestParam("dateNaissance") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateNaissance,
+                                                 @RequestParam("adresse") String adresse,
+                                                @RequestParam("nationality") String nationality,
+                                               @RequestParam("image") MultipartFile file) throws IOException {
+      Client client = new Client();
+      client.setNom(nom);
+      client.setPrenom(prenom);
+      client.setEmail(email);
+      client.setPassword(password);
+      client.setCin(cin);
+      client.setNumeroTelephone(numeroTelephone);
+      client.setDateNaissance(dateNaissance);
+      client.setRole(Role.CLIENT);
+      client.setNationality(nationality);
+      client.setAdresse(adresse);
+      String originalFilename = file.getOriginalFilename();
+      String uniqueFilename = UUID.randomUUID().toString() + "_" + originalFilename;
+      Path fileNameAndPath = Paths.get(uploadDirectory, uniqueFilename);
+      if (!Files.exists(fileNameAndPath.getParent())) {
+        Files.createDirectories(fileNameAndPath.getParent());
+      }
+      Files.write(fileNameAndPath, file.getBytes());
+      client.setImage(uniqueFilename);
+      Client savedClient = authenticationServices.addClient(client);
+      return ResponseEntity.ok(savedClient);
+    }
 }

@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface IAgenceServices {
 
-     Agence AddAgence (Agence agence);
-     List<Agence> agenceListe();
-     Agence assignAgentsToAgence(Long agenceId, List<Long> agentIds);
+    Agence AddAgence (Agence agence);
+    List<Agence> agenceListe();
+    Agence assignAgentsToAgence(Long agenceId, List<Long> agentIds);
     Agence dassignAgentsToAgence(Long agenceId, List<Long> agentIds);
     void deleteAgence(long agence);
     Agence modifierUneAgence(Agence agence);

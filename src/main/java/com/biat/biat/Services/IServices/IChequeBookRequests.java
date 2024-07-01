@@ -9,6 +9,7 @@ public interface IChequeBookRequests {
     ChequeBookRequest approveChequeBookRequest(Long requestId);
     ChequeBookRequest refuseChequeBookRequest(Long requestId);
     List<ChequeBookRequest> getAllRequestsByClientId(Long clientId);
-
     List<ChequeBookRequest> getAllRequestsByAgentId(Long agentId);
+    void deleteChequeBookRequest(Long id);
+    ChequeBookRequest  getRequestById(Long id);
 }

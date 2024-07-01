@@ -52,9 +52,6 @@ private final ICompteServices compteServices;
     @PostMapping(path = "/addAcount/{idAgent}/{idClient}/{idAgence}")
     public ResponseEntity<?> AjouterCompte(@RequestBody Compte compte,@PathVariable("idAgent") Long idAgent,@PathVariable("idClient") Long idClient,@PathVariable("idAgence") Long idAgence) {
         try {
-//            if (compte.getClient() == null) {
-//                return new ResponseEntity<>("Client cannot be null", HttpStatus.BAD_REQUEST);
-//            }
             return new ResponseEntity<>(compteServices.addAcount(idAgent,idAgence,compte,idClient), HttpStatus.CREATED);
         } catch (RessourceNotFound exception) {
             return new ResponseEntity<>(exception.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
@@ -97,5 +94,37 @@ private final ICompteServices compteServices;
         resultat.put("courant", compteCourant);
         resultat.put("chequier", compteChequier);
         return ResponseEntity.ok(resultat);
+    }
+
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateAccount( @RequestBody Compte updatedCompte) {
+        try {
+            compteServices.updateAccount(updatedCompte);
+            return ResponseEntity.ok("Compte mis à jour avec succès.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erreur lors de la mise à jour du compte: " + e.getMessage());
+        }
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteAccount(@PathVariable Long id) {
+        try {
+            compteServices.deleteAccount(id);
+            return ResponseEntity.ok("Compte supprimé avec succès.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erreur lors de la suppression du compte: " + e.getMessage());
+        }
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Compte> getCompteById(@PathVariable Long id) {
+        Compte compte = compteServices.getCompteById(id);
+        return ResponseEntity.ok(compte);
+    }
+    @GetMapping("/solde/{clientId}")
+    public ResponseEntity<Double> getSoldeByClientId(@PathVariable Long clientId) {
+        Double solde = compteServices.getSoldeByClientId(clientId);
+        return ResponseEntity.ok(solde);
     }
 }

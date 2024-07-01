@@ -12,5 +12,6 @@ public interface IClientServices {
     Client getClientById(long id);
     Agent findAgentByClientId(Long clientId);
     Agence findAgenceByClientId(Long clientId);
+    Client updateClient(Client client);
 
 }
